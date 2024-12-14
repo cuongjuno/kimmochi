@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trang Nhớ Em</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f6f6f6 0%, #ffffff 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #intro-text {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 36px;
+        color: #333;
+        font-weight: 500;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in;
+        position: fixed;
+        top: 100px;
+      }
+
+      .play-button {
+        padding: 15px 35px;
+        font-size: 18px;
+        background: linear-gradient(45deg, #ff6b6b, #ff8787);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .play-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        background: linear-gradient(45deg, #ff5252, #ff6b6b);
+      }
+
+      .play-button:active {
+        transform: translateY(1px);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message-box {
+        position: absolute;
+        padding: 15px 30px;
+        color: white;
+        border-radius: 15px;
+        font-size: 18px;
+        animation: float 3s ease-out forwards;
+      }
+
+      .icon {
+        position: absolute;
+        font-size: 35px;
+        animation: floatIcon 4s ease-out forwards;
+      }
+
+      .snowflake {
+        position: absolute;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        animation: floatSnowflake 3s ease-out forwards;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) translateX(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) translateX(var(--x-offset));
+          opacity: 0;
+        }
+      }
+
+      @keyframes floatIcon {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes floatSnowflake {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="intro-text">Anh có điều muốn nói</div>
+    <button id="play-button" class="play-button" onclick="startEffect()">
+      Nhấn vào đây nè
+    </button>
+    <audio id="music" loop>
+      <source src="hehe.mp3" type="audio/mp3" />
+    </audio>
+
+    <script>
+      let isPlaying = false;
+
+      const colors = [
+        "#FF6B6B",
+        "#4ECDC4",
+        "#45B7D1",
+        "#96CEB4",
+        "#FFEEAD",
+        "#D4A5A5",
+        "#9B59B6",
+        "#3498DB",
+        "#E74C3C",
+        "#2ECC71",
+      ];
+
+      const icons = ["❤", "🌟", "🎵", "🌸", "✨", "💖", "🍀", "🌺", "💫", "💝"];
+
+      function getRandomColor() {
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      function getRandomIcon() {
+        return icons[Math.floor(Math.random() * icons.length)];
+      }
+
+      function startEffect() {
+        if (!isPlaying) {
+          document.getElementById("intro-text").style.display = "none";
+          document.getElementById("play-button").style.display = "none";
+
+          document.getElementById("music").play();
+          isPlaying = true;
+          setInterval(createMessage, 1000);
+          setInterval(createIcon, 500);
+          setInterval(createSnowflake, 300);
+        }
+      }
+
+      function createMessage() {
+        const messages = [
+          "Tràn ngập bộ nhớ nhớ nhớ em",
+          "Tràn ngập bộ nhớ nhớ nhớ em",
+          "Tràn ngập bộ nhớ nhớ nhớ em",
+          "Cho anh cảm giác không sao quên được",
+          "Nhưng anh mong có cảm giác này mãi (ai-ai)",
+        ];
+
+        const message = document.createElement("div");
+        message.className = "message-box";
+        // Lấy text ngẫu nhiên từ mảng messages
+        message.innerHTML =
+          messages[Math.floor(Math.random() * messages.length)];
+        message.style.setProperty(
+          "--x-offset",
+          Math.random() * 200 - 100 + "px"
+        );
+        message.style.left = Math.random() * (window.innerWidth - 300) + "px";
+        message.style.top = window.innerHeight + "px";
+        message.style.background = `rgba(${Math.random() * 255},${
+          Math.random() * 255
+        },${Math.random() * 255},0.8)`;
+        document.body.appendChild(message);
+
+        setTimeout(() => {
+          message.remove();
+        }, 5000);
+      }
+
+      function createIcon() {
+        const icon = document.createElement("div");
+        icon.className = "icon";
+        icon.innerHTML = getRandomIcon();
+        icon.style.left = Math.random() * window.innerWidth + "px";
+        icon.style.top = window.innerHeight + "px";
+        icon.style.color = getRandomColor();
+        document.body.appendChild(icon);
+
+        setTimeout(() => {
+          icon.remove();
+        }, 4000);
+      }
+
+      function createSnowflake() {
+        const snowflake = document.createElement("div");
+        snowflake.className = "snowflake";
+        snowflake.innerHTML = "❄";
+        snowflake.style.left = Math.random() * window.innerWidth + "px";
+        snowflake.style.top = window.innerHeight + "px";
+        snowflake.style.color = getRandomColor();
+        document.body.appendChild(snowflake);
+
+        setTimeout(() => {
+          snowflake.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
