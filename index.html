@@ -2,7 +2,7 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <title>Trang Nhớ Em</title>
+    <title>Kimmochi</title>
     <style>
       body {
         margin: 0;
@@ -65,10 +65,21 @@
       .message-box {
         position: absolute;
         padding: 15px 30px;
-        color: white;
+        color: #ffffff;
         border-radius: 15px;
-        font-size: 18px;
+        font-size: 20px;
         animation: float 3s ease-out forwards;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        font-weight: bold;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      @media screen and (max-width: 768px) {
+        .message-box {
+          font-size: 24px;
+          padding: 15px 25px;
+          background: rgba(0, 0, 0, 0.8) !important;
+        }
       }
 
       .icon {
@@ -178,7 +189,6 @@
 
         const message = document.createElement("div");
         message.className = "message-box";
-        // Lấy text ngẫu nhiên từ mảng messages
         message.innerHTML =
           messages[Math.floor(Math.random() * messages.length)];
         message.style.setProperty(
@@ -187,14 +197,20 @@
         );
         message.style.left = Math.random() * (window.innerWidth - 300) + "px";
         message.style.top = window.innerHeight + "px";
-        message.style.background = `rgba(${Math.random() * 255},${
-          Math.random() * 255
-        },${Math.random() * 255},0.8)`;
+
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        message.style.background = `linear-gradient(45deg, 
+          rgba(${r},${g},${b},0.8), 
+          rgba(${r + 30},${g + 30},${b + 30},0.8)
+        )`;
+
         document.body.appendChild(message);
 
         setTimeout(() => {
           message.remove();
-        }, 5000);
+        }, 3000);
       }
 
       function createIcon() {
